@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="./lib/react.js" crossorigin></script>
+  <script src="./lib/react-dom.js" crossorigin></script>
+  <script src="./lib/babel.js"></script>
+
+  <!-- 推荐使用方式一或方式三 -->
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.querySelector("#root"));
+    class App extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          message: "Hello React"
+        }
+        // 方式一：事件绑定的函数中this为undefined，无法通过this.setState改变数据，需要手动绑定this
+        // this.changeText = this.changeText.bind(this)
+      }
+
+      // changeText() {
+      //   this.setState({
+      //     message: "这是改变的文本"
+      //   })
+      // }
+
+      // 方式三：函数定义的时候直接定义成箭头函数形式
+      changeText = () => {
+        this.setState({
+          message: "这是改变的文本"
+        })
+      }
+
+      render() {
+        // 方式一
+        // return (
+        //   <div>
+        //     <p> {this.state.message}</p>
+        //     <button onClick={this.changeText}>改变文本</button>
+        //   </div>
+        // )
+
+        // 方式二：通过箭头函数绑定this
+        // return (
+        //   <div>
+        //     <p> {this.state.message}</p>
+        //     <button onClick={() => this.changeText()}>改变文本</button>
+        //   </div>
+        // )
+
+        // 方式三
+        return (
+          <div>
+            <p> {this.state.message}</p>
+            <button onClick={this.changeText}>改变文本</button>
+          </div >
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

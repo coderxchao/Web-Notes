@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties -->
+  <style>
+    :root {
+      --app-size: 100px;
+      --app-color: #ff00ff
+    }
+
+    #app {
+      width: var(--app-size);
+      height: var(--app-size);
+      background-color: var(--app-color);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+</html>

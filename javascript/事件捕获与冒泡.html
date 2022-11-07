@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      background-color: aquamarine;
+      height: 100vh;
+    }
+
+    #div1 {
+      width: 200px;
+      height: 200px;
+      background-color: blueviolet;
+    }
+
+    #span {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: burlywood;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="div1">
+    div1
+    <span id="span">span</span>
+  </div>
+
+  <script>
+
+    /* TAG event.target和event.currentTarget的区别：
+           1. event.target表示触发事件的元素，即点击的那个元素
+           2. event.currentTarget表示绑定事件的元素，因为事件存在捕获与冒泡，所以当前绑定事件的元素不一定是实际点击的元素，当前绑定的事件回调可能是其内部元素的事件通过冒泡上来的
+    */
+
+    /* 冒泡事件 */
+    document.body.addEventListener("click", (e) => {
+      console.log("body被点击->冒泡", "target", e.target, "currentTarget", e.currentTarget);
+    });
+    document.querySelector("#div1").addEventListener("click", (e) => {
+      console.log("div1被点击->冒泡", "target", e.target, "currentTarget", e.currentTarget);
+    });
+    document.querySelector("#span").addEventListener("click", (e) => {
+      console.log("span被点击->冒泡", "target", e.target, "currentTarget", e.currentTarget);
+    });
+
+    /* 捕获事件 */
+    document.body.addEventListener(
+      "click",
+      (e) => {
+        // event.stopPropagation();
+        console.log("body被点击->捕获", "target", e.target, "currentTarget", e.currentTarget);
+      },
+      true
+    );
+    document.querySelector("#div1").addEventListener(
+      "click",
+      (e) => {
+        console.log("div1被点击->捕获", "target", e.target, "currentTarget", e.currentTarget);
+      },
+      true
+    );
+    document.querySelector("#span").addEventListener(
+      "click",
+      (e) => {
+        console.log("span被点击->捕获", "target", e.target, "currentTarget", e.currentTarget);
+      },
+      true
+    );
+  </script>
+</body>
+
+</html>

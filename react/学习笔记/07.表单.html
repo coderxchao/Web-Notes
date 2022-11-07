@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="./lib/react.js"></script>
+  <script src="./lib/react-dom.js"></script>
+  <script src="./lib/babel.js"></script>
+
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          inputValue: "input内容",
+          textValue: "textarea内容",
+          selectValue: "mango"
+        }
+      }
+
+      handleInputChange = (e) => {
+        this.setState({
+          inputValue: e.target.value
+        })
+      }
+
+      handleTextChange = (e) => {
+        this.setState({
+          textValue: e.target.value
+        })
+      }
+
+      handleSelectChange = (e) => {
+        this.setState({
+          selectValue: e.target.value
+        })
+      }
+
+      render() {
+        return (
+          <div>
+            <form>
+              <input type="text" value={this.state.inputValue} onChange={this.handleInputChange} />
+              <p>{this.state.inputValue}</p>
+              <textarea type="textarea" value={this.state.textValue} onChange={this.handleTextChange}></textarea>
+              <p>{this.state.textValue}</p>
+
+              <label>
+                选择你喜欢的风味:
+                <select value={this.state.selectValue} onChange={this.handleSelectChange}>
+                  <option value="grapefruit">葡萄柚</option>
+                  <option value="lime">酸橙</option>
+                  <option value="coconut">椰子</option>
+                  <option value="mango">芒果</option>
+                </select>
+              </label>
+            </form>
+          </div>
+        )
+      }
+    }
+    const root = ReactDOM.createRoot(document.querySelector("#app"));
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

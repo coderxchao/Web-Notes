@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="./lib/react.js"></script>
+  <script src="./lib/react-dom.js"></script>
+  <!-- 没使用jsx语法，则不需要使用babel转换 -->
+  <!-- <script src="./lib/babel.js"></script> -->
+
+  <!-- 不用babel转换的时候，不需要添加type="text/babel" -->
+  <script>
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+      }
+
+      render() {
+        // return (
+        //   <div className="class1">
+        //     <p>你好啊</p>
+        //   </div>
+        // )
+        return React.createElement("div", { className: "class1" }, React.createElement("p", null, "你好啊"))
+      }
+    }
+    const root = ReactDOM.createRoot(document.querySelector("#root"));
+    // root.render(<App />)
+    root.render(React.createElement(App, null))
+  </script>
+</body>
+
+</html>

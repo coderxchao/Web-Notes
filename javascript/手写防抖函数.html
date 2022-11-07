@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <input id="input1" type="text" />
+  <input id="input-cancel" type="button" value="取消" />
+  <script>
+    const input1 = document.querySelector("#input1");
+    let count = 0;
+    let onInput = function (e) {
+      console.log(`执行了${++count}次`, this, e);
+      return "返回值----------";
+    };
+    let _debounce = debounce(onInput, 1000, true);
+    let tempCallback = (...args) => {
+      // 这里不能直接执行，否则回造成this绑定不对
+      _debounce.apply(input1, args)
+        .then((res) => {
+          console.log("接收到返回的结果：", res);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    };
+    input1.addEventListener("input", tempCallback);
+
+    document.querySelector("#input-cancel").addEventListener("click", (e) => {
+      _debounce.oncancel();
+    });
+
+    /* 防抖函数--------------------------------------------------------- */
+    function debounce(fn, delay, immediately) {
+      let timer = null;
+      let isInvoke = false;
+      function _debounce(...args) {
+        /* 通过返回promise将结果resolve出去，也可以通过回调的方式实现 */
+        return new Promise((resolve, reject) => {
+          if (timer) clearTimeout(timer);
+          // 立即执行一次
+          if (immediately && !isInvoke) {
+            const result = fn.apply(this, args);
+            resolve(result);
+            isInvoke = true;
+            return;
+          } else {
+            timer = setTimeout(() => {
+              const result = fn.apply(this, args);
+              resolve(result);
+              isInvoke = false;
+            }, delay);
+          }
+        });
+      }
+      /* 取消后面的一次 */
+      _debounce.oncancel = function () {
+        if (timer) clearTimeout(timer);
+        timer = null;
+        isInvoke = false;
+      };
+      return _debounce;
+    }
+  </script>
+</body>
+
+</html>
