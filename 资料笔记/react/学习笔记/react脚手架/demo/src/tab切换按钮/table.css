@@ -1,0 +1,22 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.tablayout {
+  background-color: #ccc;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.tabItem {
+  padding: 10px;
+  text-align: center;
+  background-color: #ccc;
+}
+
+.active {
+  color: red;
+
+  border-bottom: 2px solid red;
+}

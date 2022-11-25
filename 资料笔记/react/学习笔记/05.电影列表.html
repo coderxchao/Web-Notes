@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="./lib/react.js" crossorigin></script>
+  <script src="./lib/react-dom.js" crossorigin></script>
+  <script src="./lib/babel.js"></script>
+
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.querySelector("#root"));
+    class App extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          currentIndex: 0,
+          movies: ["大话西游", "功夫", "少林足球", "审死官"],
+          value: "",
+        };
+      }
+
+      addMovie = () => {
+        if (this.state.value.trim()) {
+          const newMoives = this.state.movies;
+          newMoives.push(this.state.value);
+          this.setState({
+            movies: newMoives,
+            value: "",
+          });
+        }
+      };
+
+      handleChange = (e) => {
+        this.setState({
+          value: e.target.value,
+        });
+      };
+
+      itemClick(index) {
+        this.setState({
+          currentIndex: index
+        })
+      }
+
+      render() {
+        const { currentIndex } = this.state;
+        return (
+          <div>
+            <ul>
+              {this.state.movies.map((movie, index) => (
+                <li
+                  style={{ color: currentIndex === index ? "red" : "" }}
+                  key={movie}
+                  onClick={() => this.itemClick(index)}
+                >
+                  {movie}
+                </li>
+              ))}
+            </ul>
+            <input
+              type="text"
+              value={this.state.value}
+              onChange={this.handleChange}
+            />
+            <button onClick={this.addMovie}>添加</button>
+          </div>
+        );
+      }
+    }
+    root.render(<App />);
+  </script>
+</body>
+
+</html>

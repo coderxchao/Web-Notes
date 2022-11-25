@@ -1,62 +1,285 @@
-<!DOCTYPE html>
-<html lang="zh">
+<div%@ Register TagPrefix="aspxform" Namespace="XFormDesigner.Framework.Web.UI" Assembly="XFormDesigner.Framework" %>
+  <html xmlns:xform="xmlns:xform">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    * {
-      margin: 0px;
-    }
+  <head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>报装管理系统</title>
+    <style>
+      BODY {
+        FONT-SIZE: 12px;
+        FONT-FAMILY: verdana
+      }
 
-    html,
-    body {
-      height: 100vh;
-      position: relative;
-    }
+      TABLE {
+        border-collapse: collapse;
+        FONT-SIZE: 12px;
+        FONT-FAMILY: verdana
+      }
 
-    .header {
-      background-color: red;
-      width: 100%;
-      height: 100px;
-    }
+      P {
+        PADDING-RIGHT: 0px;
+        PADDING-LEFT: 0px;
+        PADDING-BOTTOM: 0px;
+        MARGIN: 0px;
+        PADDING-TOP: 0px;
+        FONT-SIZE: 12px;
+        FONT-FAMILY: verdana
+      }
 
-    .footer {
-      background-color: blue;
-      width: 100%;
-      height: 100px;
-    }
+      TD {
+        PADDING-RIGHT: 0px;
+        PADDING-LEFT: 2px;
+        PADDING-BOTTOM: 0px
+      }
 
-    .content {
-      background-color: yellow;
-      width: 100%;
-      float: left;
-    }
+      TD.NoPadding {
+        PADDING-RIGHT: 0px;
+        PADDING-LEFT: 0px;
+        PADDING-BOTTOM: 0px;
+        PADDING-TOP: 0px
+      }
 
-    .left {
-      background-color: rgba(0, 255, 255, 0.27);
-      width: 100px;
-      height: 100%;
-      float: left;
-    }
+      INPUT {
+        HEIGHT: 20px
+      }
 
-    .right {
-      background-color: blueviolet;
-      height: 100%;
-      overflow: hidden;
-    }
-  </style>
-</head>
+      INPUT.UL {
+        BORDER-RIGHT: medium none;
+        BORDER-TOP: medium none;
+        BORDER-LEFT: medium none;
+        BORDER-BOTTOM: #33ff33 1px solid
+      }
 
-<body>
-  <div class="header"></div>
-  <div class="content">
-    <div class="left"></div>
-    <div class="right"></div>
-  </div>
-  <div class="footer"></div>
-</body>
+      TEXTAREA {
+        FONT-SIZE: 12px
+      }
 
-</html>
+      .container-title {
+        text-align: center;
+      }
+
+      table.process-btn-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    </style>
+    <!-- 引入 Bootstrap -->
+    <link href="../../../../Bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../../../Style/JiNanBZStyle.css" rel="stylesheet" type="text/css" />
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="../../../../Bootstrap/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="../../../../Bootstrap/bootstrap.min.js"></script>
+    <script src="../../../Scripts/JiNanBZ.js"></script>
+    <!-- 修改潜在用户报装状态和档案状态 -->
+    <script src="../../../Scripts/JiNanZTDA.js"></script>
+    <script src="../../../wap/scripts/waptaskcontrol.js"></script>
+    <script>
+      self.moveTo(0, 0);
+      self.resizeTo(screen.availWidth, screen.availHeight);
+
+      window.onload = function () {
+        loadFuJian();
+      };
+    </script>
+  </head>
+
+  <body>
+    <form runat="server">
+      <div class="container">
+        <h3 class="container-title">
+          <aspxform:XLabel id="XLabel1" runat="server" text="Label" ValueToDisplayText XDataBind="Global.StepName"
+            Value></aspxform:XLabel>
+        </h3>
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><a href="#collapseKHXX" data-toggle="collapse">申请信息</a>
+            </h3>
+          </div>
+          <div id="collapseKHXX" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 labelName">经办部门：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <aspxform:XDropDownList tabIndex="-1" id="Cmb_KHXX_KeHuLX" class="form-control" runat="server"
+                    XDataBind="BaoZhuangLCXXB.I_KHXX_KeHuLX" PromptText="--请选择--" DisplayColumn="WORD_TEXT"
+                    ValueColumn="WORD_VALUE"
+                    XDataSource="DataSource:WAP_CONFIG2;TableName:CNF_WORD;Filter:PARENT_ID->Xdb_KeHuMC">
+                    <asp:ListItem>未绑定</asp:ListItem>
+                    <asp:ListItem></asp:ListItem>
+                  </aspxform:XDropDownList>
+                  <aspxform:XLabel id="Lbl_KKeHuLX_KeHuMC" runat="server" ValueToDisplayText XDataBind="Xdb_KeHuMC"
+                    Value Text="477" HiddenExpress="1==1"></aspxform:XLabel>
+                </div>
+                <div class="col-md-3 col-lg-3 labelName">合同编号：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <aspxform:XTextBox id="Txt_SQXX_JYR23" class="form-control" runat="server" ValueToDisplayText
+                    XDataBind="BaoZhuangLCXXB.S_XMXX_XiangMuMC" Value HiddenInput="False" Min="0" Max="0"
+                    MaxLength="100">
+                  </aspxform:XTextBox>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3 col-lg-3 labelName">报送日期：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <aspxform:XDateTimePicker id="Date_JYSJ22"
+                    style="BORDER-TOP: #ccc 1px solid; HEIGHT: 34px; BORDER-RIGHT: #ccc 1px solid; WIDTH: 100%; BORDER-BOTTOM: #ccc 1px solid; PADDING-LEFT: 15px; BORDER-LEFT: #ccc 1px solid; box-shadow: inset 0 1px 1px #eee; border-radius: 4px"
+                    runat="server" XDataBind="BaoZhuangLCXXB_YTHJS_CKZT.D_JBXX_FaQiSJ"></aspxform:XDateTimePicker>
+                </div>
+                <div class="col-md-3 col-lg-3 labelName">项目名称：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <aspxform:XTextBox id="Txt_SQXX_JYR2" class="form-control" runat="server" ValueToDisplayText
+                    XDataBind="BaoZhuangLCXXB.S_XMXX_XiangMuMC" Value HiddenInput="False" Min="0" Max="0"
+                    MaxLength="100">
+                  </aspxform:XTextBox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-3 col-lg-3 labelName">寻源编号：<span class="markNonEmpty">*</span>
+                    </div>
+                    <div class="col-md-2 col-lg-2">
+                      <aspxform:XTextBox disabled id="Lbl_SerialNum" class="form-control" runat="server"
+                        XDataBind="BaoZhuangLCXXB_TZSJZT.S_BZLCXXB_SerialNum"
+                        ValueToDisplayText="TableName:BaoZhuangLCXXB;FilterColumn:SerialNum;DisplayColumn:SerialNum">
+                      </aspxform:XTextBox>
+                    </div>
+                    <div class="col-md-3 col-lg-3">
+                      <aspxform:XDataBrowserButton id="XDataBrowserButton1" class="form-control" runat="server"
+                        DataMap="SerialNum->BaoZhuangLCXXB_TZSJZT.S_BZLCXXB_SerialNum"
+                        XDataSource="TableName:View_TZSJZT_Task" Text="浏览" width="100px"
+                        DisplayColumns="SerialNum:流水号,100;S_JBXX_FaQiR:发起人,100;D_JBXX_FaQiSJ:发起时间,150;S_KHXX_KeHuMC:客户名称,150;S_XMXX_XiangMuMC:项目名称,150">
+                      </aspxform:XDataBrowserButton>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 labelName">寻源方式：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-9 col-lg-9">
+                  <aspxform:XCheckBox id="FXK_XMXX_YongShuiXZSG" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZSG" Text="公开招标"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XMXX_YongShuiXZSH" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZSH" Text="邀请招标"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XiangMuXX_YongShuiXZBG" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZBG" Text="竞争性谈判"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XiangMuXX_YongShuiXZJY" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZJY" Text="询报价"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XiangMuXX_YongShuiXZHH" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZHH" Text="单一来源"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XiangMuXX_YongShuiXZQT" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZQT" Text="直接委托" onchange="SetQT()"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XiangMuXX_YongShuiXZQT2" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZQT" Text="集采" onchange="SetQT()"></aspxform:XCheckBox>
+                  <aspxform:XCheckBox id="FXK_XiangMuXX_YongShuiXZQT3" class="inputCheckbox" runat="server"
+                    XDataBind="BaoZhuangLCXXB.B_XMXX_YongShuiXZQT" Text="不寻源" onchange="SetQT()"></aspxform:XCheckBox>
+                  <div class="col-md-3 col-lg-3" hiddenexpress="BaoZhuangLCXXB.B_XMXX_YongShuiXZQT==0">
+                    <aspxform:XTextBox id="Txt_XMXX_YongShuiXZQTWB" class="form-control" runat="server"
+                      XDataBind="BaoZhuangLCXXB.S_XMXX_YongShuiXZQTNR" ValueToDisplayText Value MaxLength="100" Max="0"
+                      Min="0" HiddenInput="False"></aspxform:XTextBox>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-3 col-lg-3 labelName">合同金额：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <aspxform:XTextBox id="Txt_SQXX_JYR222311" class="form-control" runat="server" ValueToDisplayText
+                    XDataBind="BaoZhuangLCXXB.S_DQSJ_ChaKanRY" Value HiddenInput="False" Min="0" Max="0"
+                    MaxLength="100">
+                  </aspxform:XTextBox>
+                </div>
+                <div class="col-md-3 col-lg-3 labelName">对方单位：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <aspxform:XTextBox id="Txt_SQXX_JYR2223" class="form-control" runat="server" ValueToDisplayText
+                    XDataBind="BaoZhuangLCXXB.S_DQSJ_ChaKanRY" Value HiddenInput="False" Min="0" Max="0"
+                    MaxLength="100">
+                  </aspxform:XTextBox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 labelName">备注：<span class="markNonEmpty">*</span>
+                </div>
+                <div class="col-md-9 col-lg-9">
+                  <aspxform:XTextBox id="Txt_SQXX_JYR5" class="form-control" runat="server" ValueToDisplayText
+                    XDataBind="BaoZhuangLCXXB.S_SJY_ZhuanPaiSJY" Value HiddenInput="False" Min="0" Max="0"
+                    MaxLength="1000" TextMode="MultiLine" Rows="3"></aspxform:XTextBox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><a onclick="loadFuJian()" href="#collapseFJXX" data-toggle="collapse">附件信息</a>
+            </h3>
+          </div>
+          <div id="collapseFJXX" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <div class="row">
+                <div style="DISPLAY: none">
+                  <aspxform:XTextBox id="txtCurrentYHH" runat="server" XDataBind="BaoZhuangLCXXB.S_DangQianYHH"
+                    HiddenExpress="1==1"></aspxform:XTextBox>
+                </div>
+                <iframe id="ifFuJian" class="ifameFuJian">
+                </iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title"><a href="#collapseLSYJ" data-toggle="collapse">历史意见</a>
+            </h3>
+          </div>
+          <div id="collapseLSYJ" class="panel-collapse collapse">
+            <div class="panel-body">
+              <div class="col-md-12 col-lg-12">
+                <div class="divHistory">
+                  <aspxform:XSignTrace id="XSignHistory1" runat="server" BorderColor="#dcdcdc" BorderWidth="1">
+                  </aspxform:XSignTrace>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><a href="#collapseSHXX" data-toggle="collapse">审核信息</a>
+            </h3>
+          </div>
+          <div id="collapseSHXX" class="row">
+            <div class="col-md-3 col-lg-3 labelName">审核备注：<span class="markNonEmpty">*</span>
+            </div>
+            <div class="col-md-9 col-lg-9">
+              <aspxform:XTextBox id="Txt_SHXX_BZ" class="form-control" runat="server" Value
+                XDataBind="BaoZhuangLCXXB.S_EG_ZiLiaoQQSM" ValueToDisplayText MaxLength="1000" Max="0" Min="0"
+                HiddenInput="False" Rows="3" TextMode="MultiLine"></aspxform:XTextBox>
+            </div>
+          </div>
+        </div>
+
+
+        <aspxform:XProcessButtonList id="Btn_Process" runat="server" SystemButtonVisible="False"
+          PositionSelectVisible="False" CloseButtonVisible="False"></aspxform:XProcessButtonList>
+      </div>
+    </form>
+  </body>
+
+  </html>

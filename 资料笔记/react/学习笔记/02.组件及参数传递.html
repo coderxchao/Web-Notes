@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script src="./lib/react.js" crossorigin></script>
+  <script src="./lib/react-dom.js" crossorigin></script>
+  <script src="./lib/babel.js"></script>
+
+  <!-- 这里type要写成text/babel，babel工具才能正常解析其中的jsx语法 -->
+  <script type="text/babel">
+
+    /* 函数组件 */
+    function FunctionWelcomeComponent(props) {
+      return <h1>Hello,{props.name}</h1>
+    }
+
+    /* 类组件 */
+    class ClassWelcomeComponent extends React.Component {
+      render() {
+        return <h1>Hello,{this.props.name}</h1>
+      }
+    }
+
+    const root = ReactDOM.createRoot(document.querySelector("#root"));
+    root.render((
+      <div>
+        <FunctionWelcomeComponent name="这是一个函数组件" />
+        <ClassWelcomeComponent name="这是一个类组件" />
+      </div>
+    ))
+  </script>
+</body>
+
+</html>

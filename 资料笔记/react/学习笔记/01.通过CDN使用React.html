@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- 注意: 部署时，将 "development.js" 替换为 "production.min.js"。-->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- 解析jsx语法 -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <!-- 这里type要写成text/babel，babel工具才能正常解析其中的jsx语法 -->
+  <script type="text/babel">
+    let message = "Hello React"
+    const btnClick = function () {
+      message = message.split("").reverse().join("");
+      renderContent(); // 重新渲染
+    }
+    const root = ReactDOM.createRoot(document.querySelector("#root"));
+    function renderContent() {
+      root.render((
+        <div>
+          <div>{message}</div>
+          <button onClick={btnClick}>改变文本</button>
+        </div>
+      ))
+    }
+    // 初始化渲染
+    renderContent();
+  </script>
+</body>
+
+</html>
