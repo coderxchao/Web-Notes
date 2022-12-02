@@ -10,7 +10,8 @@ import ReactDOM from "react-dom/client"
 // import App from "./react优化/App.jsx";
 // import App from "./ref绑定/App.jsx";
 // import App from "./受控组件和非受控组件/App.jsx";
-import App from "./高阶组件/App.jsx";
+// import App from "./高阶组件/App.jsx";
+import App from "./styled-components使用/App.jsx";
 const root = ReactDOM.createRoot(document.querySelector("#root"))
 
 
