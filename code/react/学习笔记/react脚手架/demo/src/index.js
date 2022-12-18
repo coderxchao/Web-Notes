@@ -11,7 +11,8 @@ import ReactDOM from "react-dom/client"
 // import App from "./ref绑定/App.jsx";
 // import App from "./受控组件和非受控组件/App.jsx";
 // import App from "./高阶组件/App.jsx";
-import App from "./styled-components使用/App.jsx";
+// import App from "./styled-components使用/App.jsx";
+import App from "./react-redux/基本使用/App.jsx";
 const root = ReactDOM.createRoot(document.querySelector("#root"))
 
 
